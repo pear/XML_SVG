@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: horde/lib/XML/package.xml,v 1.5 2003/07/03 16:37:23 chuck Exp $ -->
+<!-- $Horde: framework/XML_SVG/package.xml,v 1.6 2003/09/09 21:47:47 jan Exp $ -->
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>XML_SVG</name>
   <summary>XML_SVG API</summary>
-  <description>This package provides an object-oriented way of building SVG documents.</description>
+  <description>This package provides an object-oriented API for building SVG documents.</description>
   <license>LGPL</license>
 
   <maintainers>
@@ -31,10 +31,10 @@
   </maintainers>
 
   <release>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
+    <date>2003-12-17</date>
     <state>stable</state>
-    <date>2003-07-07</date>
-    <notes>Stable release into the PEAR XML hierarchy.</notes>
+    <notes>Updated stable release for the package system.</notes>
     <filelist>
       <file role="php" baseinstalldir="/XML" name="SVG.php" />
     </filelist>
@@ -44,6 +44,12 @@
   </release>
 
   <changelog>
+    <release>
+      <version>0.0.2</version>
+      <date>2003-07-07</date>
+      <state>stable</state>
+      <notes>Stable release into the PEAR XML hierarchy.</notes>
+    </release>
     <release>
       <version>0.0.1</version>
       <date>2002-12-29</date>
