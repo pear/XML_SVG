@@ -5,7 +5,7 @@
  * Wrapper class that provides some examples and a few convenience
  * methods.
  *
- * $Horde: horde/lib/XML/SVG.php,v 1.12 2003/01/03 02:40:05 jan Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.13 2003/07/03 15:55:16 chuck Exp $
  *
  * Copyright 2002-2003 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -279,7 +279,7 @@ class XML_SVG_Textpath extends XML_SVG_Element {
         echo '<' . $element;
         $this->printParams('id', 'x', 'y', 'dx', 'dy', 'rotate',
                            'textLength', 'lengthAdjust', 'style', 'transform');
-        echo '>' . $this->_text;
+        echo '>' . htmlentities($this->_text);
         parent::printElement();
         echo "</$element>\n";
     }
