@@ -1,18 +1,16 @@
 <?php
-/*
- * $Horde: horde/lib/XML/SVG.php,v 1.8 2002/07/26 19:59:02 slusarz Exp $
- *
- * Copyright 2002 Chuck Hagenbuch <chuck@horde.org>
- *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
- */
-
 /**
  * XML_SVG
  *
  * Wrapper class that provides some examples and a few convenience
  * methods.
+ *
+ * $Horde: horde/lib/XML/SVG.php,v 1.9 2002/08/18 21:04:44 chuck Exp $
+ *
+ * Copyright 2002 Chuck Hagenbuch <chuck@horde.org>
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  *
  * @package horde.xml.svg
  */
@@ -956,4 +954,3 @@ class XML_SVG_Tref extends XML_SVG_Element {
     }
 
 }
-?>
