@@ -5,7 +5,7 @@
  * Wrapper class that provides some examples and a few convenience
  * methods.
  *
- * $Horde: framework/XML_SVG/SVG.php,v 1.15 2003/11/05 15:15:08 chuck Exp $
+ * $Horde: framework/XML_SVG/SVG.php,v 1.16 2004/01/01 15:14:44 jan Exp $
  *
  * Copyright 2002-2004 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -92,7 +92,6 @@ class XML_SVG_Element {
     var $_transform = null;
     var $_id = null;
 
-    // The constructor.
     function XML_SVG_Element($params = array())
     {
         foreach ($params as $p => $v) {
@@ -101,12 +100,14 @@ class XML_SVG_Element {
         }
     }
 
-    // Most SVG elements can contain child elements. This method calls the
-    // printElement method of any child element added to this object by use
-    // of the addChild method.
+    /**
+     * Most SVG elements can contain child elements. This method calls
+     * the printElement method of any child element added to this
+     * object by use of the addChild method.
+     */
     function printElement()
     {
-        // Loop and call
+        // Loop and call.
         if (is_array($this->_elements)) {
             foreach ($this->_elements as $child) {
                 $child->printElement();
@@ -114,19 +115,23 @@ class XML_SVG_Element {
         }
     }
 
-    // This method adds an object reference (or value, if $copy is
-    // true) to the _elements array.
+    /**
+     * This method adds an object reference (or value, if $copy is
+     * true) to the _elements array.
+     */
     function addChild(&$element, $copy = false)
     {
         if ($copy) {
-            $this->_elements[] = $element;
+            $this->_elements[] = &$element->copy();
         } else {
             $this->_elements[] = &$element;
         }
     }
 
-    // This method sends a message to the passed element requesting to be
-    // added as a child.
+    /**
+     * This method sends a message to the passed element requesting to
+     * be added as a child.
+     */
     function addParent(&$parent)
     {
         if (is_subclass_of($parent, 'XML_SVG_Element')) {
@@ -136,10 +141,17 @@ class XML_SVG_Element {
 
     function copy()
     {
-        return $this;
+        if (version_compare(zend_version(), '2', '>')) {
+            return clone($this);
+        } else {
+            $xml_svg = $this;
+            return $xml_svg;
+        }
     }
 
-    // Print each of the passed parameters, if they are set.
+    /**
+     * Print each of the passed parameters, if they are set.
+     */
     function printParams()
     {
         foreach (func_get_args() as $param) {
@@ -184,7 +196,7 @@ class XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Fragment
  *
  * @package XML_SVG
@@ -240,7 +252,7 @@ class XML_SVG_Document extends XML_SVG_Fragment {
 
 }
 
-/** 
+/**
  * XML_SVG_Group
  *
  * @package XML_SVG
@@ -258,7 +270,7 @@ class XML_SVG_Group extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Textpath
  *
  * @package XML_SVG
@@ -293,7 +305,7 @@ class XML_SVG_Textpath extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Text
  *
  * @package XML_SVG
@@ -314,7 +326,7 @@ class XML_SVG_Text extends XML_SVG_Textpath {
 
 }
 
-/** 
+/**
  * XML_SVG_Tspan
  *
  * @package XML_SVG
@@ -351,7 +363,7 @@ class XML_SVG_Tspan extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Circle
  *
  * @package XML_SVG
@@ -387,7 +399,7 @@ class XML_SVG_Circle extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Line
  *
  * @package XML_SVG
@@ -424,7 +436,7 @@ class XML_SVG_Line extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Rect
  *
  * @package XML_SVG
@@ -464,7 +476,7 @@ class XML_SVG_Rect extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Ellipse
  *
  * @package XML_SVG
@@ -501,7 +513,7 @@ class XML_SVG_Ellipse extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Polyline
  *
  * @package XML_SVG
@@ -533,7 +545,7 @@ class XML_SVG_Polyline extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Polygon
  *
  * @package XML_SVG
@@ -564,7 +576,7 @@ class XML_SVG_Polygon extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Path
  *
  * @package XML_SVG
@@ -595,7 +607,7 @@ class XML_SVG_Path extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Image
  *
  * @package XML_SVG
@@ -636,7 +648,7 @@ class XML_SVG_Image extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Animate
  *
  * @package XML_SVG
@@ -680,7 +692,7 @@ class XML_SVG_Animate extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Filter
  *
  * @package XML_SVG
@@ -708,7 +720,7 @@ class XML_SVG_Filter extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_FilterPrimitive
  *
  * @package XML_SVG
@@ -792,7 +804,7 @@ class XML_SVG_FilterPrimitive extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_FilterMergeNode
  *
  * @package XML_SVG
@@ -810,7 +822,7 @@ class XML_SVG_FilterMergeNode extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Use
  *
  * @package XML_SVG
@@ -832,7 +844,7 @@ class XML_SVG_Use extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Defs
  *
  * @package XML_SVG
@@ -850,7 +862,7 @@ class XML_SVG_Defs extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Marker
  *
  * @package XML_SVG
@@ -891,8 +903,8 @@ class XML_SVG_Marker extends XML_SVG_Element {
 
 }
 
-/** 
- * XML_SVG_Title 
+/**
+ * XML_SVG_Title
  *
  * @package XML_SVG
 */
@@ -912,7 +924,7 @@ class XML_SVG_Title extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Desc
  *
  * @package XML_SVG
@@ -932,7 +944,7 @@ class XML_SVG_Desc extends XML_SVG_Element {
 
 }
 
-/** 
+/**
  * XML_SVG_Tref
  *
  * @package XML_SVG
