@@ -1,6 +1,6 @@
 <?php
 /**
- * $Horde: horde/lib/XML/SVG.php,v 1.4 2002/06/26 19:59:05 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.5 2002/07/06 05:35:09 chuck Exp $
  *
  * Utility class for generating SVG images.
  *
@@ -204,11 +204,7 @@ class XML_SVG_Fragment extends XML_SVG_Element {
 
     function bufferObject()
     {
-        ob_start();
-        $this->printElement();
-        $buff = ob_get_contents();
-	    ob_end_clean();
-        return $buff;
+        return Horde::bufferOutput(array($this, 'printElement'));
     }
 }
 
