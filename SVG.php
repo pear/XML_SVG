@@ -5,7 +5,7 @@
  * Wrapper class that provides some examples and a few convenience
  * methods.
  *
- * $Horde: horde/lib/XML/SVG.php,v 1.9 2002/08/18 21:04:44 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.10 2002/11/10 00:58:56 chuck Exp $
  *
  * Copyright 2002 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -199,7 +199,7 @@ class XML_SVG_Fragment extends XML_SVG_Element {
 
     function printElement()
     {
-        echo '<svg'; // width=\"$this->_width\" height=\"$this->_height\" ");
+        echo '<svg';
         $this->printParams('id', 'width', 'height', 'x', 'y', 'viewBox', 'style');
         echo ' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' . "\n";
         parent::printElement();
@@ -208,7 +208,12 @@ class XML_SVG_Fragment extends XML_SVG_Element {
 
     function bufferObject()
     {
-        return Horde::bufferOutput(array($this, 'printElement'));
+        ob_start();
+        $this->printElement();
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
     }
 }
 
