@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: $ -->
+<!-- $Horde: horde/lib/XML/package.xml,v 1.1 2002/12/29 17:49:01 chuck Exp $ -->
 <!DOCTYPE package SYSTEM "package.dtd">
 <package version="1.0">
   <name>XML_SVG</name>
   <summary>XML_SVG API</summary>
-  <description>This packages provides an object-oriented way of building SVG documents.</description>
+  <description>This package provides an object-oriented way of building SVG documents.</description>
   <license>LGPL</license>
   <maintainers>
     <maintainer>
