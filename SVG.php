@@ -1,6 +1,6 @@
 <?php
 /**
- * $Horde: horde/lib/XML/SVG.php,v 1.1 2002/05/22 03:36:48 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.2 2002/06/12 06:00:54 chuck Exp $
  *
  * Utility class for generating SVG images.
  *
@@ -154,8 +154,7 @@ class XML_SVG_Fragment extends XML_SVG_Element {
             echo 'viewBox="' . $this->_viewBox . '" ';
         }
 
-        print('xmlns="http://www.w3.org/2000/svg" ');
-        print('xmlns:xlink="http://www.w3.org/1999/xlink" ');
+        echo 'xmlns="http://www.aw3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
         $this->printStyle();
         print(">\n");
         parent::printElement();
