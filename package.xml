@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- $Horde: $ -->
+<!DOCTYPE package SYSTEM "package.dtd">
+<package version="1.0">
+  <name>XML_SVG</name>
+  <summary>XML_SVG API</summary>
+  <description>This packages provides an object-oriented way of building SVG documents.</description>
+  <license>LGPL</license>
+  <maintainers>
+    <maintainer>
+      <user>chuck</user>
+      <role>lead</role>
+      <name>Chuck Hagenbuch</name>
+      <email>chuck@horde.org</email>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.0.1</version>
+    <state>alpha</state>
+    <date>2002-12-29</date>
+    <notes>Initial PEAR package release.</notes>
+    <filelist>
+      <file role="php" baseinstalldir="/XML" name="SVG.php" />
+    </filelist>
+    <deps>
+      <dep type="php" rel="ge" version="4.2.0+" />
+    </deps>
+  </release>
+
+</package>
