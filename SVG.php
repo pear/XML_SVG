@@ -5,9 +5,9 @@
  * Wrapper class that provides some examples and a few convenience
  * methods.
  *
- * $Horde: framework/XML_SVG/SVG.php,v 1.14 2003/07/28 20:18:48 chuck Exp $
+ * $Horde: framework/XML_SVG/SVG.php,v 1.15 2003/11/05 15:15:08 chuck Exp $
  *
- * Copyright 2002-2003 Chuck Hagenbuch <chuck@horde.org>
+ * Copyright 2002-2004 Chuck Hagenbuch <chuck@horde.org>
  *
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
