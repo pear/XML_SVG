@@ -1,6 +1,6 @@
 <?php
 /**
- * $Horde: horde/lib/XML/SVG.php,v 1.3 2002/06/19 18:19:25 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.4 2002/06/26 19:59:05 chuck Exp $
  *
  * Utility class for generating SVG images.
  *
@@ -9,6 +9,77 @@
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  */
+
+/**
+ * XML_SVG
+ *
+ * Wrapper class that provides some examples and a few convenience
+ * methods.
+ *
+ * @package horde.xml.xvg
+ */
+class XML_SVG {
+
+    function example()
+    {
+        // Create an instance of XML_SVG_Document. All other objects
+        // will be added to this instance for printing. Set the height
+        // and width of the viewport.
+        $svg = &new XML_SVG_Document(array('width' => 400,
+                                           'height' => 200));
+
+        // Create an instance of XML_SVG_Group. Set the style,
+        // transforms for child objects.
+        $g = &new XML_SVG_Group(array('style' => 'stroke:black',
+                                      'transform' => 'translate(200 100)'));
+
+        // Add a parent to the g instance.
+        $g->addParent($svg);
+
+        // The same results can be accomplished by making g a child of the svg.
+        // $svg->addChild($g);
+
+        // Create and animate a circle.
+        $circle = new XML_SVG_Circle(array('cx' => 0,
+                                           'cy' => 0,
+                                           'r' => 100,
+                                           'style' => 'stroke-width:3'));
+        $circle->addChild(new XML_SVG_Animate(array('attributeName' => 'r',
+                                                    'attributeType' => 'XML',
+                                                    'from' => 0,
+                                                    'to' => 75,
+                                                    'dur' => '3s',
+                                                    'fill' => 'freeze')));
+        $circle->addChild(new XML_SVG_Animate(array('attributeName' => 'fill',
+                                                    'attributeType' => 'CSS',
+                                                    'from' => 'green',
+                                                    'to' => 'red',
+                                                    'dur' => '3s',
+                                                    'fill' => 'freeze')));
+
+        // Make the circle a child of g.
+        $g->addChild($circle);
+
+        // Create and animate some text.
+        $text = new XML_SVG_Text(array('text' => 'SVG chart!',
+                                       'x' => 0,
+                                       'y' => 0,
+                                       'style' => 'font-size:20;text-anchor:middle;'));
+        $text->addChild(new XML_SVG_Animate(array('attributeName' => 'font-size',
+                                                  'attributeType' => 'auto',
+                                                  'from' => 0,
+                                                  'to' => 20,
+                                                  'dur' => '3s',
+                                                  'fill' => 'freeze')));
+
+        // Make the text a child of g.
+        $g->addChild($text);
+
+        // Send a message to the svg instance to start printing.
+        $svg->printElement();
+    }
+
+}
 
 /**
  * XML_SVG_Element
@@ -20,13 +91,18 @@
  */
 class XML_SVG_Element {
 
-    var $_elements = ''; // Initialize so warnings aren't issued when not used.
-    var $_style;
-    var $_transform;
+    var $_elements = null;
+    var $_style = null;
+    var $_transform = null;
+    var $_id = null;
 
     // The constructor.
-    function XML_SVG_Element()
+    function XML_SVG_Element($params = array())
     {
+        foreach ($params as $p => $v) {
+            $param = '_' . $p;
+            $this->$param = $v;
+        }
     }
 
     // Most SVG elements can contain child elements. This method calls the
@@ -57,7 +133,7 @@ class XML_SVG_Element {
     // added as a child.
     function addParent(&$parent)
     {
-        if (is_subclass_of($parent, "XML_SVG_Element")) {
+        if (is_subclass_of($parent, 'XML_SVG_Element')) {
             $parent->addChild($this);
         }
     }
@@ -67,49 +143,39 @@ class XML_SVG_Element {
         return $this;
     }
 
-    // Most SVG elements have a style attribute.
-    // It is up to the derived class to call this method.
-    function printStyle()
+    // Print each of the passed parameters, if they are set.
+    function printParams()
     {
-        if ($this->_style != '') {
-            print(" style=\"$this->_style\"");
+        foreach (func_get_args() as $param) {
+            $_param = '_' . $param;
+            if (isset($this->$_param)) {
+                echo ' ' . $param . '="' . $this->$_param . '"';
+            }
         }
-    }
-
-    // This enables the style property to be set after initialization.
-    function setStyle($string)
-    {
-        $this->_style = $string;
-    }
-
-    // Most SVG elements have a transform attribute.
-    // It is up to the dervied class to call this method.
-    function printTransform()
-    {
-        if ($this->_transform != '') {
-            print(" transform=\"$this->_transform\"");
-        }
-    }
-
-    // This enables the transform property to be set after initialization.
-    function setTransform($string)
-    {
-        $this->_transform = $string;
     }
 
     // Set any named attribute of an element to a value.
-    function setAttribute($attribute, $value)
+    function setParam($param, $value)
     {
-        $attr = '_' . $attribute;
+        $attr = '_' . $param;
         $this->$attr = $value;
+    }
+
+    // Get any named attribute of an element.
+    function getParam($param)
+    {
+        $attr = '_' . $param;
+        if (isset($this->$attr)) {
+            return $this->$attr;
+        } else {
+            return null;
+        }
     }
 
     // Print out the object for debugging.
     function debug()
     {
-        print("<pre>");
-        print_r($this);
-        print("</pre>");
+        echo '<pre>'; var_dump($this); echo '</pre>';
     }
 
 }
@@ -121,44 +187,19 @@ class XML_SVG_Element {
  */
 class XML_SVG_Fragment extends XML_SVG_Element {
 
-    var $_Width;
-    var $_Height;
+    var $_width;
+    var $_height;
     var $_viewBox;
     var $_x;
     var $_y;
 
-    function XML_SVG_Fragment($width="100%", $height="100%", $x=0, $y=0, $viewBox = '', $style='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_width = $width;
-        $this->_height = $height;
-        $this->_style = $style;
-        $this->_viewBox = $viewBox;
-        $this->_x = $x;
-        $this->_y = $y;
-    }
-
     function printElement()
     {
-        print("<svg width=\"$this->_width\" height=\"$this->_height\" ");
-
-        if ($this->_x !== '') {
-            print("x=\"$this->_x\" ");
-        }
-        if ($this->_y !== '') {
-            print("y=\"$this->_y\" ");
-        }
-        if ($this->_viewBox !== '') {
-            echo 'viewBox="' . $this->_viewBox . '" ';
-        }
-
-        echo 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
-        $this->printStyle();
-        print(">\n");
+        echo '<svg'; // width=\"$this->_width\" height=\"$this->_height\" ");
+        $this->printParams('id', 'width', 'height', 'x', 'y', 'viewBox', 'style');
+        echo ' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">' . "\n";
         parent::printElement();
-        print("</svg>\n");
+        echo "</svg>\n";
     }
 
     function bufferObject()
@@ -181,19 +222,13 @@ class XML_SVG_Fragment extends XML_SVG_Element {
  */
 class XML_SVG_Document extends XML_SVG_Fragment {
 
-    function XML_SVG_Document($width="100%", $height="100%", $viewBox = '', $style='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Fragment($width, $height, '', '', $viewBox, $style);
-    }
-
     function printElement()
     {
         header('Content-Type: image/svg+xml');
 
         print('<?xml version="1.0" encoding="iso-8859-1"?>'."\n");
         print('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
-	        "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">'."\n");
+	        "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">' . "\n");
 
         parent::printElement();
     }
@@ -206,20 +241,10 @@ class XML_SVG_Document extends XML_SVG_Fragment {
  */
 class XML_SVG_Group extends XML_SVG_Element {
 
-    function XML_SVG_Group($style = '', $transform = '')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
-
     function printElement()
     {
         print("<g ");
-        $this->printStyle();
-        $this->printTransform();
+        $this->printParams('id', 'style', 'transform');
         print(">\n");
         parent::printElement();
         print("</g>\n");
@@ -243,45 +268,14 @@ class XML_SVG_Textpath extends XML_SVG_Element {
     var $_textLength;
     var $_lengthAdjust;
 
-    function XML_SVG_Textpath($text = '', $x = 0, $y = 0, $dx = null, $dy = null,
-                         $rotate = null, $textLength = null, $lengthAdjust = null)
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_text = $text;
-        $this->_x = $x;
-        $this->_y = $y;
-        $this->_dx = $dx;
-        $this->_dy = $dy;
-        $this->_rotate = $rotate;
-        $this->_textLength = $textLength;
-        $this->_lengthAdjust = $lengthAdjust;
-    }
-
     function printElement($element = 'textpath')
     {
-        print("<$element x=\"$this->_x\" y=\"$this->_y\"");
-        $this->printStyle();
-        $this->printTransform();
-        if (!is_null($this->_dx)) {
-            echo ' dx="' . $this->_dx . '"';
-        }
-        if (!is_null($this->_dy)) {
-            echo ' dy="' . $this->_dy . '"';
-        }
-        if (!is_null($this->_rotate)) {
-            echo ' rotate="' . $this->_rotate . '"';
-        }
-        if (!is_null($this->_textLength)) {
-            echo ' textLength="' . $this->_textLength . '"';
-        }
-        if (!is_null($this->_lengthAdjust)) {
-            echo ' lengthAdjust="' . $this->_lengthAdjust . '"';
-        }
+        echo '<' . $element;
+        $this->printParams('id', 'x', 'y', 'dx', 'dy', 'rotate',
+                           'textLength', 'lengthAdjust', 'style', 'transform');
         echo '>' . $this->_text;
         parent::printElement();
-        print("</$element>\n");
+        echo "</$element>\n";
     }
 
     function setShape($x, $y, $text)
@@ -299,17 +293,6 @@ class XML_SVG_Textpath extends XML_SVG_Element {
  * @package horde.xml.svg
  */
 class XML_SVG_Text extends XML_SVG_Textpath {
-
-    function XML_SVG_Text($text = '', $x = 0, $y = 0, $dx = null, $dy = null,
-                     $rotate = null, $textLength = null, $lengthAdjust = null,
-                     $style = null, $transform = null)
-    {
-        // Call the parent class constructor.
-        parent::XML_SVG_Textpath($text, $x, $y, $dx, $dy, $rotate, $textLength, $lengthAdjust);
-
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
 
     function printElement()
     {
@@ -332,40 +315,25 @@ class XML_SVG_Text extends XML_SVG_Textpath {
  */
 class XML_SVG_Tspan extends XML_SVG_Element {
 
+    var $_text;
     var $_x;
     var $_y;
-    var $_text;
-
-    function XML_SVG_Tspan($x=0, $y=0, $text='', $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_x = $x;
-        $this->_y = $y;
-        $this->_text  = $text;
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
+    var $_dx;
+    var $_dy;
+    var $_rotate;
+    var $_textLength;
+    var $_lengthAdjust;
 
     function printElement()
     {
-        print("<tspan x=\"$this->_x\" y=\"$this->_y\" ");
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
-            print(">\n");
-            print($this->_text);
+        echo '<tspan';
+        $this->printParams('id', 'x', 'y', 'dx', 'dy', 'rotate',
+                           'textLength', 'lengthAdjust', 'style', 'transform');
+        echo '>' . $this->_text;
+        if (is_array($this->_elements)) {
             parent::printElement();
-            print("</tspan>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
-            print(">\n");
-            print($this->_text);
-            print("\n</tspan>\n");
         }
+        echo "</tspan>\n";
     }
 
     function setShape($x, $y, $text)
@@ -388,32 +356,19 @@ class XML_SVG_Circle extends XML_SVG_Element {
     var $_cy;
     var $_r;
 
-    function XML_SVG_Circle($cx=0, $cy=0, $r=0, $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_cx = $cx;
-        $this->_cy = $cy;
-        $this->_r  = $r;
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
-
     function printElement()
     {
-        print("<circle cx=\"$this->_cx\" cy=\"$this->_cy\" r=\"$this->_r\" ");
+        echo '<circle';
 
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
-            print(">\n");
+        $this->printParams('id', 'cx', 'cy', 'r', 'style', 'transform');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
+            echo ">\n";
             parent::printElement();
-            print("</circle>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
-            print("/>\n");
+            echo "</circle>\n";
+        } else {
+            // Print short tag.
+            echo "/>\n";
         }
     }
 
@@ -438,32 +393,17 @@ class XML_SVG_Line extends XML_SVG_Element {
     var $_x2;
     var $_y2;
 
-    function XML_SVG_Line($x1=0, $y1=0, $x2=0, $y2=0, $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_x1 = $x1;
-        $this->_y1 = $y1;
-        $this->_x2  = $x2;
-        $this->_y2  = $y2;
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
-
     function printElement()
     {
-        print("<line x1=\"$this->_x1\" y1=\"$this->_y1\" x2=\"$this->_x2\" y2=\"$this->_y2\" ");
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
+        echo '<line';
+        $this->printParams('id', 'x1', 'y1', 'x2', 'y2', 'style');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</line>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
+        } else {
+            // Print short tag.
             print("/>\n");
         }
     }
@@ -487,50 +427,33 @@ class XML_SVG_Rect extends XML_SVG_Element {
 
     var $_x;
     var $_y;
-    var $_Width;
-    var $_Height;
-
-    function XML_SVG_Rect($x=0, $y=0, $width=0, $height=0, $rx = '', $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_x = $x;
-        $this->_y = $y;
-        $this->_Width  = $width;
-        $this->_Height  = $height;
-        $this->_rx = $rx;
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
+    var $_width;
+    var $_height;
+    var $_rx;
+    var $_ry;
 
     function printElement()
     {
-        print("<rect x=\"$this->_x\" y=\"$this->_y\" width=\"$this->_Width\" height=\"$this->_Height\" ");
-        if ($this->_rx !== '') {
-            echo 'rx="' . $this->_rx . '" ';
-        }
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
+        echo '<rect';
+        $this->printParams('id', 'x', 'y', 'width', 'height',
+                           'rx', 'ry', 'style');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</rect>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
+        } else {
+            // Print short tag.
             print("/>\n");
         }
-
     }
 
     function setShape($x, $y, $width, $height)
     {
         $this->_x = $x;
         $this->_y = $y;
-        $this->_Width  = $width;
-        $this->_Height  = $height;
+        $this->_width  = $width;
+        $this->_height  = $height;
     }
 
 }
@@ -547,34 +470,18 @@ class XML_SVG_Ellipse extends XML_SVG_Element {
     var $_rx;
     var $_ry;
 
-    function XML_SVG_Ellipse($cx=0, $cy=0, $rx=0, $ry=0, $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_cx = $cx;
-        $this->_cy = $cy;
-        $this->_rx  = $rx;
-        $this->_ry  = $ry;
-        $this->_style = $style;
-        $this->_transform = $transform;
-
-    }
-
     function printElement()
     {
-        print("<ellipse cx=\"$this->_cx\" cy=\"$this->_cy\" rx=\"$this->_rx\" ry=\"$this->_ry\" ");
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
+        echo '<ellipse';
+        $this->printParams('id', 'cx', 'cy', 'rx', 'ry', 'style', 'transform');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</ellipse>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
-            print("/>\n");
+        } else {
+            // Print short tag.
+            print(" />\n");
         }
     }
 
@@ -597,29 +504,18 @@ class XML_SVG_Polyline extends XML_SVG_Element {
 
     var $_points;
 
-    function XML_SVG_Polyline($points=0, $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_points = $points;
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
-
     function printElement()
     {
-        print("<polyline points=\"$this->_points\" ");
+        echo '<polyline';
+        $this->printParams('id', 'points', 'style', 'transform');
 
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</polyline>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
+        } else {
+            // Print short tag.
             print("/>\n");
         }
     }
@@ -640,43 +536,26 @@ class XML_SVG_Polygon extends XML_SVG_Element {
 
     var $_points;
 
-    function XML_SVG_Polygon($points=0, $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_points = $points;
-        $this->_style = $style;
-        $this->_transform = $transform;
-
-    }
-
     function printElement()
     {
-        print("<polygon points=\"$this->_points\" ");
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-    
-            $this->printStyle();
-            $this->printTransform();
+        echo '<polygon';
+        $this->printParams('id', 'points', 'style', 'transform');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</polygon>\n");
-    
-        } else { // Print short tag.
-    
-            $this->printStyle();
-            $this->printTransform();
+        } else {
+            // Print short tag.
             print("/>\n");
-    
-        } // end else
-
+        }
     }
 
     function setShape($points)
     {
         $this->_points = $points;
     }
+
 }
 
 /** 
@@ -688,30 +567,17 @@ class XML_SVG_Path extends XML_SVG_Element {
 
     var $_d;
 
-    function XML_SVG_Path($d='', $style='', $transform='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_d = $d;
-        $this->_style = $style;
-        $this->_transform = $transform;
-
-    }
-
     function printElement()
     {
-        print("<path d=\"$this->_d\" ");
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            $this->printStyle();
-            $this->printTransform();
+        echo '<path';
+        $this->printParams('id', 'd', 'style', 'transform');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
             print(">\n");
             parent::printElement();
             print("</path>\n");
-        } else { // Print short tag.
-            $this->printStyle();
-            $this->printTransform();
+        } else {
+            // Print short tag.
             print("/>\n");
         }
     }
@@ -724,65 +590,86 @@ class XML_SVG_Path extends XML_SVG_Element {
 }
 
 /** 
+ * XML_SVG_Image
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_Image extends XML_SVG_Element {
+
+    var $_x;
+    var $_y;
+    var $_width;
+    var $_height;
+    var $_href;
+
+    function printElement()
+    {
+        echo '<image';
+        $this->printParams('id', 'x', 'y', 'width', 'height', 'style');
+        if (!empty($this->_href)) {
+            echo ' xlink:href="' . $this->_href . '"';
+        }
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
+            echo ">\n";
+            parent::printElement();
+            echo "</image>\n";
+        } else {
+            // Print short tag.
+            echo " />\n";
+        }
+    }
+
+    function setShape($x, $y, $width, $height)
+    {
+        $this->_x = $x;
+        $this->_y = $y;
+        $this->_width  = $width;
+        $this->_height  = $height;
+    }
+
+}
+
+/** 
  * XML_SVG_Animate
  *
  * @package horde.xml.svg
  */
 class XML_SVG_Animate extends XML_SVG_Element {
 
-    var $_AttributeName;
-    var $_AttributeType;
-    var $_From;
+    var $_attributeName;
+    var $_attributeType;
+    var $_from;
     var $_to;
-    var $_Begin;
+    var $_begin;
     var $_dur;
-    var $_Fill;
-
-    function XML_SVG_Animate($attributeName, $attributeType='', $from='', $to='', $begin='', $dur='', $fill='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_AttributeName = $attributeName;
-        $this->_AttributeType = $attributeType;
-        $this->_From  = $from;
-        $this->_to = $to;
-        $this->_Begin = $begin;
-        $this->_dur = $dur;
-        $this->_Fill = $fill;
-
-    }
+    var $_fill;
 
     function printElement()
     {
-        print("<animate attributeName=\"$this->_AttributeName\" ");
-
-        // Print the attributes only if they are defined.
-        if ($this->_AttributeType != '') { print ("attributeType=\"$this->_AttributeType\" "); }
-        if ($this->_From != '')  { print ("from=\"$this->_From\" "); }
-        if ($this->_to != '')    { print ("to=\"$this->_to\" "); }
-        if ($this->_Begin != '') { print ("begin=\"$this->_Begin\" "); }
-        if ($this->_dur != '')   { print ("dur=\"$this->_dur\" "); }
-        if ($this->_Fill != '')  { print ("fill=\"$this->_Fill\" "); }
-
-        if (is_array($this->_elements)) { // Print children, start and end tag.
-            print(">\n");
+        echo '<animate';
+        $this->printParams('id', 'attributeName', 'attributeType', 'from', 'to',
+                           'begin', 'dur', 'fill');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
+            echo ">\n";
             parent::printElement();
-            print("</animate>\n");
+            echo "</animate>\n";
         } else {
-            print("/>\n");
+            echo " />\n";
         }
     }
 
-    function setShape($attributeName, $attributeType='', $from='', $to='', $begin='', $dur='', $fill='')
+    function setShape($attributeName, $attributeType = '', $from = '',
+                      $to = '', $begin = '', $dur = '', $fill = '')
     {
-        $this->_AttributeName = $attributeName;
-        $this->_AttributeType = $attributeType;
-        $this->_From  = $from;
+        $this->_attributeName = $attributeName;
+        $this->_attributeType = $attributeType;
+        $this->_from  = $from;
         $this->_to = $to;
-        $this->_Begin = $begin;
+        $this->_begin = $begin;
         $this->_dur = $dur;
-        $this->_Fill = $fill;
+        $this->_fill = $fill;
     }
 
 }
@@ -794,23 +681,13 @@ class XML_SVG_Animate extends XML_SVG_Element {
  */
 class XML_SVG_Defs extends XML_SVG_Element {
 
-    function XML_SVG_Defs($style = '', $transform = '')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_style = $style;
-        $this->_transform = $transform;
-    }
-
     function printElement()
     {
-        print("<defs ");
-        $this->printStyle();
-        $this->printTransform();
-        print(">\n");
+        echo '<defs';
+        $this->printParams('id', 'style', 'transform');
+        echo ">\n";
         parent::printElement();
-        print("</defs>\n");
+        echo "</defs>\n";
     }
 
 }
@@ -822,7 +699,6 @@ class XML_SVG_Defs extends XML_SVG_Element {
  */
 class XML_SVG_Marker extends XML_SVG_Element {
 
-    var $_id;
     var $_refX;
     var $_refY;
     var $_markerUnits;
@@ -830,33 +706,11 @@ class XML_SVG_Marker extends XML_SVG_Element {
     var $_markerHeight;
     var $_orient;
 
-    function XML_SVG_Marker($id, $refX='', $refY='', $_arkerUnits='', $_arkerWidth='', $_arkerHeight='', $orient='')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_id = $id;
-        $this->_refX = $refX;
-        $this->_refY  = $refY;
-        $this->_markerUnits = $_arkerUnits;
-        $this->_markerWidth = $_arkerWidth;
-        $this->_markerHeight = $_arkerHeight;
-        $this->_orient = $orient;
-
-    }
-
     function printElement()
     {
-        print("<marker id=\"$this->_id\" ");
-
-        // Print the attributes only if they are defined.
-        if ($this->_refX != '')          { print ("refX=\"$this->_refX\" "); }
-        if ($this->_refY != '')          { print ("refY=\"$this->_refY\" "); }
-        if ($this->_markerUnits != '')   { print ("markerUnits=\"$this->_markerUnits\" "); }
-        if ($this->_markerWidth != '')   { print ("markerWidth=\"$this->_markerWidth\" "); }
-        if ($this->_markerHeight != '')  { print ("markerHeight=\"$this->_markerHeight\" "); }
-        if ($this->_orient != '')        { print ("orient=\"$this->_orient\" "); }
-
+        echo '<marker';
+        $this->printParams('id', 'refX', 'refY', 'markerUnits',
+                           'markerWidth', 'markerHeight', 'orient');
         if (is_array($this->_elements)) { // Print children, start and end tag.
             print(">\n");
             parent::printElement();
@@ -866,9 +720,9 @@ class XML_SVG_Marker extends XML_SVG_Element {
         }
     }
 
-    function setShape($id, $refX='', $refY='', $markerUnits='', $markerWidth='', $markerHeight='', $orient='')
+    function setShape($refX = '', $refY = '', $markerUnits = '',
+                      $markerWidth = '', $markerHeight = '', $orient = '')
     {
-        $this->_id = $id;
         $this->_refX = $refX;
         $this->_refY  = $refY;
         $this->_markerUnits = $markerUnits;
@@ -888,22 +742,12 @@ class XML_SVG_Title extends XML_SVG_Element {
 
     var $_title;
 
-    function XML_SVG_Title($title, $style = '')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_title = $title;
-        $this->_style = $style;
-
-    }
-
     function printElement()
     {
-        print("<title ");
-        $this->printStyle();
+        echo '<title';
+        $this->printParams('id', 'style');
         print(">\n");
-        print($this->_title."\n");
+        print($this->_title);
         parent::printElement();
         print("</title>\n");
     }
@@ -919,22 +763,41 @@ class XML_SVG_Desc extends XML_SVG_Element {
 
     var $_desc;
 
-    function XML_SVG_Desc($desc, $style = '')
-    {
-        // Call the parent class constructor.
-        $this->XML_SVG_Element();
-
-        $this->_desc = $desc;
-        $this->_style = $style;
-    }
-
     function printElement()
     {
-        echo '<desc ';
-        $this->printStyle();
+        echo '<desc';
+        $this->printParams('id', 'style');
         echo '>' . $this->_desc;
         parent::printElement();
         echo "</desc>\n";
+    }
+
+}
+
+/** 
+ * XML_SVG_Tref
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_Tref extends XML_SVG_Element {
+
+    var $_text;
+    var $_x;
+    var $_y;
+    var $_dx;
+    var $_dy;
+    var $_rotate;
+    var $_textLength;
+    var $_lengthAdjust;
+
+    function printElement()
+    {
+        echo '<tref';
+        $this->printParams('id', 'x', 'y', 'dx', 'dy', 'rotate',
+                           'textLength', 'lengthAdjust', 'style');
+        echo '>' . $this->_text;
+        parent::printElement();
+        echo "</tref>\n";
     }
 
 }
