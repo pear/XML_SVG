@@ -1,6 +1,6 @@
 <?php
 /*
- * $Horde: horde/lib/XML/SVG.php,v 1.7 2002/07/24 00:50:37 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.8 2002/07/26 19:59:02 slusarz Exp $
  *
  * Copyright 2002 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -8,17 +8,13 @@
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  */
 
-/*
- * Utility class for generating SVG images.
- * /
-
 /**
  * XML_SVG
  *
  * Wrapper class that provides some examples and a few convenience
  * methods.
  *
- * @package horde.xml.xvg
+ * @package horde.xml.svg
  */
 class XML_SVG {
 
