@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: horde/lib/XML/package.xml,v 1.3 2003/07/02 09:59:39 jan Exp $ -->
+<!-- $Horde: horde/lib/XML/package.xml,v 1.4 2003/07/03 15:55:16 chuck Exp $ -->
 <!DOCTYPE package SYSTEM "package.dtd">
 <package version="1.0">
   <name>XML_SVG</name>
   <summary>XML_SVG API</summary>
   <description>This package provides an object-oriented way of building SVG documents.</description>
   <license>LGPL</license>
+
   <maintainers>
     <maintainer>
-      <user>chuck</user>
+      <user>chagenbu</user>
       <role>lead</role>
       <name>Chuck Hagenbuch</name>
       <email>chuck@horde.org</email>
     </maintainer>
+
     <maintainer>
       <user>jon</user>
       <role>lead</role>
       <name>Jon Parise</name>
       <email>jon@horde.org</email>
     </maintainer>
+
     <maintainer>
       <user>yunosh</user>
       <role>lead</role>
