@@ -1,11 +1,22 @@
 <?php
 /**
- * $Horde: $
+ * $Horde: horde/lib/XML/SVG.php,v 1.1 2002/05/22 03:36:48 chuck Exp $
  *
+ * Utility class for generating SVG images.
+ *
+ * Copyright 2002 Chuck Hagenbuch <chuck@horde.org>
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ */
+
+/**
  * XML_SVG_Element
  *
  * This is the base class for the different SVG Element
  * Objects. Extend this class to create a new SVG Element.
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Element {
 
@@ -105,6 +116,8 @@ class XML_SVG_Element {
 
 /** 
  * XML_SVG_Fragment
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Fragment extends XML_SVG_Element {
 
@@ -164,6 +177,8 @@ class XML_SVG_Fragment extends XML_SVG_Element {
  *
  * This extends the XML_SVG_Fragment class. It wraps the XML_SVG_Frament output
  * with a content header, xml definition and doctype.
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Document extends XML_SVG_Fragment {
 
@@ -187,6 +202,8 @@ class XML_SVG_Document extends XML_SVG_Fragment {
 
 /** 
  * XML_SVG_Group
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Group extends XML_SVG_Element {
 
@@ -213,6 +230,8 @@ class XML_SVG_Group extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Textpath
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Textpath extends XML_SVG_Element {
 
@@ -277,6 +296,8 @@ class XML_SVG_Textpath extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Text
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Text extends XML_SVG_Textpath {
 
@@ -307,6 +328,8 @@ class XML_SVG_Text extends XML_SVG_Textpath {
 
 /** 
  * XML_SVG_Tspan
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Tspan extends XML_SVG_Element {
 
@@ -357,6 +380,8 @@ class XML_SVG_Tspan extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Circle
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Circle extends XML_SVG_Element {
 
@@ -404,6 +429,8 @@ class XML_SVG_Circle extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Line
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Line extends XML_SVG_Element {
 
@@ -454,6 +481,8 @@ class XML_SVG_Line extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Rect
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Rect extends XML_SVG_Element {
 
@@ -509,6 +538,8 @@ class XML_SVG_Rect extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Ellipse
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Ellipse extends XML_SVG_Element {
 
@@ -560,6 +591,8 @@ class XML_SVG_Ellipse extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Polyline
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Polyline extends XML_SVG_Element {
 
@@ -600,7 +633,9 @@ class XML_SVG_Polyline extends XML_SVG_Element {
 }
 
 /** 
- *  XML_SVG_Polygon
+ * XML_SVG_Polygon
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Polygon extends XML_SVG_Element {
 
@@ -647,6 +682,8 @@ class XML_SVG_Polygon extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Path
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Path extends XML_SVG_Element {
 
@@ -689,6 +726,8 @@ class XML_SVG_Path extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Animate
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Animate extends XML_SVG_Element {
 
@@ -750,7 +789,9 @@ class XML_SVG_Animate extends XML_SVG_Element {
 }
 
 /** 
- *  XML_SVG_Defs
+ * XML_SVG_Defs
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Defs extends XML_SVG_Element {
 
@@ -777,6 +818,8 @@ class XML_SVG_Defs extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Marker
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Marker extends XML_SVG_Element {
 
@@ -838,8 +881,10 @@ class XML_SVG_Marker extends XML_SVG_Element {
 }
 
 /** 
- * XML_SVG_Title
- */
+ * XML_SVG_Title 
+ *
+ * @package horde.xml.svg
+*/
 class XML_SVG_Title extends XML_SVG_Element {
 
     var $_title;
@@ -868,6 +913,8 @@ class XML_SVG_Title extends XML_SVG_Element {
 
 /** 
  * XML_SVG_Desc
+ *
+ * @package horde.xml.svg
  */
 class XML_SVG_Desc extends XML_SVG_Element {
 
