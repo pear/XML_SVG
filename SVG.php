@@ -1,6 +1,6 @@
 <?php
 /**
- * $Horde: horde/lib/XML/SVG.php,v 1.5 2002/07/06 05:35:09 chuck Exp $
+ * $Horde: horde/lib/XML/SVG.php,v 1.6 2002/07/11 04:16:54 chuck Exp $
  *
  * Utility class for generating SVG images.
  *
@@ -149,7 +149,15 @@ class XML_SVG_Element {
         foreach (func_get_args() as $param) {
             $_param = '_' . $param;
             if (isset($this->$_param)) {
-                echo ' ' . $param . '="' . $this->$_param . '"';
+                switch ($param) {
+                case 'filter':
+                    echo ' filter="url(#' . $this->$_param . ')"';
+                    break;
+
+                default:
+                    echo ' ' . str_replace('_', '-', $param) . '="' . $this->$_param . '"';
+                    break;
+                }
             }
         }
     }
@@ -228,6 +236,7 @@ class XML_SVG_Document extends XML_SVG_Fragment {
 
         parent::printElement();
     }
+
 }
 
 /** 
@@ -239,8 +248,8 @@ class XML_SVG_Group extends XML_SVG_Element {
 
     function printElement()
     {
-        print("<g ");
-        $this->printParams('id', 'style', 'transform');
+        echo '<g';
+        $this->printParams('id', 'style', 'transform', 'filter');
         print(">\n");
         parent::printElement();
         print("</g>\n");
@@ -666,6 +675,158 @@ class XML_SVG_Animate extends XML_SVG_Element {
         $this->_begin = $begin;
         $this->_dur = $dur;
         $this->_fill = $fill;
+    }
+
+}
+
+/** 
+ * XML_SVG_Filter
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_Filter extends XML_SVG_Element {
+
+    function printElement()
+    {
+        echo '<filter';
+        $this->printParams('id');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
+            echo ">\n";
+            parent::printElement();
+            echo "</filter>\n";
+        } else {
+            echo " />\n";
+        }
+    }
+
+    function addPrimitive($primitive, $params)
+    {
+        $this->addChild(new XML_SVG_FilterPrimitive($primitive, $params));
+    }
+
+}
+
+/** 
+ * XML_SVG_FilterPrimitive
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_FilterPrimitive extends XML_SVG_Element {
+
+    var $_primitives = array('Blend',
+                             'ColorMatrix',
+                             'ComponentTransfer',
+                             'Composite',
+                             'ConvolveMatrix',
+                             'DiffuseLighting',
+                             'DisplacementMap',
+                             'Flood',
+                             'GaussianBlur',
+                             'Image',
+                             'Merge',
+                             'Morphology',
+                             'Offset',
+                             'SpecularLighting',
+                             'Tile',
+                             'Turbulence');
+
+    var $_primitive;
+
+    var $_in;
+    var $_in2;
+    var $_result;
+    var $_x;
+    var $_y;
+    var $_dx;
+    var $_dy;
+    var $_width;
+    var $_height;
+    var $_mode;
+    var $_type;
+    var $_values;
+    var $_operator;
+    var $_k1;
+    var $_k2;
+    var $_k3;
+    var $_k4;
+    var $_surfaceScale;
+    var $_diffuseConstant;
+    var $_kernelUnitLength;
+    var $_floor_color;
+    var $_flood_opacity;
+
+    function XML_SVG_FilterPrimitive($primitive, $params = array())
+    {
+        parent::XML_SVG_Element($params);
+        $this->_primitive = $primitive;
+    }
+
+    function printElement()
+    {
+        $name = 'fe' . $this->_primitive;
+        echo '<' . $name;
+        $this->printParams('id', 'x', 'y', 'dx', 'dy', 'width', 'height', 'in', 'in2',
+                           'result', 'mode', 'type', 'values', 'operator',
+                           'k1', 'k2', 'k3', 'k4', 'surfaceScale', 'stdDeviation',
+                           'diffuseConstant', 'kernelUnitLength',
+                           'flood_color', 'flood_opacity');
+        if (is_array($this->_elements)) {
+            // Print children, start and end tag.
+            echo ">\n";
+            parent::printElement();
+            echo '</' . $name . '>';
+        } else {
+            echo '/>';
+        }
+    }
+
+    /**
+     * For feMerge elements.
+     */
+    function addMergeNode($in)
+    {
+        $this->addChild(new XML_SVG_FilterMergeNode(array('in' => $in)));
+    }
+
+}
+
+/** 
+ * XML_SVG_FilterMergeNode
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_FilterMergeNode extends XML_SVG_Element {
+
+    var $_in;
+
+    function printElement()
+    {
+        echo '<feMergeNode';
+        $this->printParams('in');
+        echo '/>';
+    }
+
+}
+
+/** 
+ * XML_SVG_Use
+ *
+ * @package horde.xml.svg
+ */
+class XML_SVG_Use extends XML_SVG_Element {
+
+    var $_symbol;
+
+    function XML_SVG_Use($symbol, $params = array())
+    {
+        parent::XML_SVG_Element($params);
+        $this->_symbol = $symbol;
+    }
+
+    function printElement()
+    {
+        echo '<use xlink:href="#' . $this->_symbol . '"/>';
     }
 
 }
