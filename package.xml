@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: framework/XML_SVG/package.xml,v 1.6 2003/09/09 21:47:47 jan Exp $ -->
+<!-- $Horde: framework/XML_SVG/package.xml,v 1.7 2003/12/17 23:44:39 chuck Exp $ -->
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>XML_SVG</name>
@@ -31,19 +31,25 @@
   </maintainers>
 
   <release>
-    <version>0.0.3</version>
-    <date>2003-12-17</date>
+    <version>1.0.0</version>
+    <date>2005-04-14</date>
     <state>stable</state>
-    <notes>Updated stable release for the package system.</notes>
+    <notes>PHP5 compatible copy() method.</notes>
     <filelist>
       <file role="php" baseinstalldir="/XML" name="SVG.php" />
     </filelist>
     <deps>
-      <dep type="php" rel="ge" version="4.2.0+" />
+      <dep type="php" rel="ge" version="4.2.0" />
     </deps>
   </release>
 
   <changelog>
+    <release>
+      <version>0.0.3</version>
+      <date>2003-12-17</date>
+      <state>stable</state>
+      <notes>Updated stable release for the package system.</notes>
+    </release>
     <release>
       <version>0.0.2</version>
       <date>2003-07-07</date>
