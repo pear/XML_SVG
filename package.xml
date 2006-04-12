@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: framework/XML_SVG/package.xml,v 1.11 2005/05/21 10:07:06 jan Exp $ -->
+<!-- $Horde: framework/XML_SVG/package.xml,v 1.12 2005/08/01 14:51:52 jan Exp $ -->
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>XML_SVG</name>
@@ -32,7 +32,7 @@
 
   <release>
     <version>1.0.1</version>
-    <date>2005-99-99</date>
+    <date>2006-04-12</date>
     <state>stable</state>
     <notes>Use htmlspecialchars() instead of htmlentities() in XML_SVG_Textpath::printElement() (PEAR Bug #4961).</notes>
     <filelist>
