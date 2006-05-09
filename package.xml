@@ -1,79 +1,143 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!-- $Horde: framework/XML_SVG/package.xml,v 1.13 2006/04/12 21:43:23 jan Exp $ -->
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0">
-  <name>XML_SVG</name>
-  <summary>XML_SVG API</summary>
-  <description>This package provides an object-oriented API for building SVG documents.</description>
-  <license>LGPL</license>
-
-  <maintainers>
-    <maintainer>
-      <user>chagenbu</user>
-      <role>lead</role>
-      <name>Chuck Hagenbuch</name>
-      <email>chuck@horde.org</email>
-    </maintainer>
-
-    <maintainer>
-      <user>jon</user>
-      <role>lead</role>
-      <name>Jon Parise</name>
-      <email>jon@horde.org</email>
-    </maintainer>
-
-    <maintainer>
-      <user>yunosh</user>
-      <role>lead</role>
-      <name>Jan Schneider</name>
-      <email>jan@horde.org</email>
-    </maintainer>
-  </maintainers>
-
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>XML_SVG</name>
+ <channel>pear.horde.org</channel>
+ <summary>XML_SVG API</summary>
+ <description>This package provides an object-oriented API for building SVG documents.
+ </description>
+ <lead>
+  <name>Chuck Hagenbuch</name>
+  <user>chuck</user>
+  <email>chuck@horde.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Jon Parise</name>
+  <user>jon</user>
+  <email>jon@horde.org</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Jan Schneider</name>
+  <user>jan</user>
+  <email>jan@horde.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2006-05-09</date>
+ <time>00:08:10</time>
+ <version>
+  <release>1.0.3</release>
+  <api>1.0.3</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+ <notes>Converted to package.xml 2.0 for pear.horde.org
+ </notes>
+ <contents>
+  <dir name="/">
+   <file baseinstalldir="/XML" name="SVG.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
   <release>
-    <version>1.0.2</version>
-    <date>2006-99-99</date>
-    <state>stable</state>
-    <notes></notes>
-    <filelist>
-      <file role="php" baseinstalldir="/XML" name="SVG.php" />
-    </filelist>
-    <deps>
-      <dep type="php" rel="ge" version="4.2.0" />
-    </deps>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>.
+   </notes>
   </release>
-
-  <changelog>
-    <release>
-      <version>1.0.1</version>
-      <date>2006-04-12</date>
-      <state>stable</state>
-      <notes>Use htmlspecialchars() instead of htmlentities() in XML_SVG_Textpath::printElement() (PEAR Bug #4961).</notes>
-    </release>
-    <release>
-      <version>1.0.0</version>
-      <date>2005-04-14</date>
-      <state>stable</state>
-      <notes>PHP5 compatible copy() method.</notes>
-    </release>
-    <release>
-      <version>0.0.3</version>
-      <date>2003-12-17</date>
-      <state>stable</state>
-      <notes>Updated stable release for the package system.</notes>
-    </release>
-    <release>
-      <version>0.0.2</version>
-      <date>2003-07-07</date>
-      <state>stable</state>
-      <notes>Stable release into the PEAR XML hierarchy.</notes>
-    </release>
-    <release>
-      <version>0.0.1</version>
-      <date>2002-12-29</date>
-      <state>alpha</state>
-      <notes>Initial release as a PEAR package</notes>
-    </release>
-  </changelog>
-
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-04-12</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Use htmlspecialchars() instead of htmlentities() in XML_SVG_Textpath::printElement() (PEAR Bug #4961).
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-04-14</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>PHP5 compatible copy() method.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.3</release>
+    <api>0.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-12-17</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Updated stable release for the package system.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.2</release>
+    <api>0.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-07-07</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Stable release into the PEAR XML hierarchy.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.1</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2002-12-29</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Initial release as a PEAR package
+   </notes>
+  </release>
+ </changelog>
 </package>
