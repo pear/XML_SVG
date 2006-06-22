@@ -2,10 +2,9 @@
 /**
  * XML_SVG
  *
- * Wrapper class that provides some examples and a few convenience
- * methods.
+ * Package for building SVG graphics.
  *
- * $Horde: framework/XML_SVG/SVG.php,v 1.19 2005/08/01 14:50:12 jan Exp $
+ * $Horde: framework/XML_SVG/SVG.php,v 1.20 2006/01/01 21:10:25 jan Exp $
  *
  * Copyright 2002-2006 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -14,68 +13,6 @@
  *
  * @package XML_SVG
  */
-class XML_SVG {
-
-    function example()
-    {
-        // Create an instance of XML_SVG_Document. All other objects
-        // will be added to this instance for printing. Set the height
-        // and width of the viewport.
-        $svg = &new XML_SVG_Document(array('width' => 400,
-                                           'height' => 200));
-
-        // Create an instance of XML_SVG_Group. Set the style,
-        // transforms for child objects.
-        $g = &new XML_SVG_Group(array('style' => 'stroke:black',
-                                      'transform' => 'translate(200 100)'));
-
-        // Add a parent to the g instance.
-        $g->addParent($svg);
-
-        // The same results can be accomplished by making g a child of the svg.
-        // $svg->addChild($g);
-
-        // Create and animate a circle.
-        $circle = &new XML_SVG_Circle(array('cx' => 0,
-                                           'cy' => 0,
-                                           'r' => 100,
-                                           'style' => 'stroke-width:3'));
-        $circle->addChild(new XML_SVG_Animate(array('attributeName' => 'r',
-                                                    'attributeType' => 'XML',
-                                                    'from' => 0,
-                                                    'to' => 75,
-                                                    'dur' => '3s',
-                                                    'fill' => 'freeze')));
-        $circle->addChild(new XML_SVG_Animate(array('attributeName' => 'fill',
-                                                    'attributeType' => 'CSS',
-                                                    'from' => 'green',
-                                                    'to' => 'red',
-                                                    'dur' => '3s',
-                                                    'fill' => 'freeze')));
-
-        // Make the circle a child of g.
-        $g->addChild($circle);
-
-        // Create and animate some text.
-        $text = &new XML_SVG_Text(array('text' => 'SVG chart!',
-                                       'x' => 0,
-                                       'y' => 0,
-                                       'style' => 'font-size:20;text-anchor:middle;'));
-        $text->addChild(new XML_SVG_Animate(array('attributeName' => 'font-size',
-                                                  'attributeType' => 'auto',
-                                                  'from' => 0,
-                                                  'to' => 20,
-                                                  'dur' => '3s',
-                                                  'fill' => 'freeze')));
-
-        // Make the text a child of g.
-        $g->addChild($text);
-
-        // Send a message to the svg instance to start printing.
-        $svg->printElement();
-    }
-
-}
 
 /**
  * XML_SVG_Element
@@ -974,6 +911,42 @@ class XML_SVG_Tref extends XML_SVG_Element {
         echo '>' . $this->_text;
         parent::printElement();
         echo "</tref>\n";
+    }
+
+}
+
+/**
+ * XML_SVG_RadialGradient
+ *
+ * @package XML_SVG
+ */
+class XML_SVG_RadialGradient extends XML_SVG_Element {
+
+    function printElement()
+    {
+        echo '<radialGradient';
+        $this->printParams('id', 'cx', 'cy', 'r', 'fx', 'fy');
+        echo '>';
+        parent::printElement();
+        echo "</radialGradient>\n";
+    }
+
+}
+
+/**
+ * XML_SVG_Stop
+ *
+ * @package XML_SVG
+ */
+class XML_SVG_Stop extends XML_SVG_Element {
+
+    function printElement()
+    {
+        echo '<stop';
+        $this->printParams('id', 'style', 'offset', 'stop-color', 'stop-opacity');
+        echo '>';
+        parent::printElement();
+        echo "</stop>\n";
     }
 
 }

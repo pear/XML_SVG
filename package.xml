@@ -37,10 +37,18 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>stable</api>
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
- <notes>Converted to package.xml 2.0 for pear.horde.org
+ <notes>* Converted to package.xml 2.0 for pear.horde.org
+* Add support for radial gradients
+* Move examples to docs/examples/ out of class file
  </notes>
  <contents>
   <dir name="/">
+   <dir name="docs">
+    <dir name="examples">
+     <file baseinstalldir="/Horde" name="basic.php" role="doc" />
+     <file baseinstalldir="/Horde" name="radialGradient.php" role="doc" />
+    </dir> <!-- /docs/examples -->
+   </dir> <!-- /docs -->
    <file baseinstalldir="/XML" name="SVG.php" role="php" />
   </dir> <!-- / -->
  </contents>
