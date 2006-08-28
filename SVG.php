@@ -4,7 +4,7 @@
  *
  * Package for building SVG graphics.
  *
- * $Horde: framework/XML_SVG/SVG.php,v 1.20 2006/01/01 21:10:25 jan Exp $
+ * $Horde: framework/XML_SVG/SVG.php,v 1.21 2006/06/22 04:31:52 chuck Exp $
  *
  * Copyright 2002-2006 Chuck Hagenbuch <chuck@horde.org>
  *
@@ -176,11 +176,13 @@ class XML_SVG_Fragment extends XML_SVG_Element {
  */
 class XML_SVG_Document extends XML_SVG_Fragment {
 
+    var $_encoding = 'iso-8859-1';
+
     function printElement()
     {
         header('Content-Type: image/svg+xml');
 
-        print('<?xml version="1.0" encoding="iso-8859-1"?>'."\n");
+        print('<?xml version="1.0" encoding="' . $this->_encoding . "\"?>\n");
         print('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
 	        "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">' . "\n");
 

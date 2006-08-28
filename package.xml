@@ -31,7 +31,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
  <notes>* Add support for radial gradients.
-* Move examples to docs/examples/ out of class file.</notes>
+* Move examples to docs/examples/ out of class file.
+* Allow to set document's charset encoding (Request #7461).</notes>
  <contents>
   <dir name="/">
    <dir name="docs">
