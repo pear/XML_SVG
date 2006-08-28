@@ -10,13 +10,13 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </description>
  <lead>
   <name>Chuck Hagenbuch</name>
-  <user>chuck</user>
+  <user>chagenbu</user>
   <email>chuck@horde.org</email>
   <active>yes</active>
  </lead>
  <lead>
   <name>Jan Schneider</name>
-  <user>jan</user>
+  <user>yunosh</user>
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
