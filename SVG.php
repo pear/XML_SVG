@@ -4,9 +4,9 @@
  *
  * Package for building SVG graphics.
  *
- * $Horde: framework/XML_SVG/SVG.php,v 1.22 2006/08/28 11:35:33 jan Exp $
+ * $Horde: framework/XML_SVG/SVG.php,v 1.23 2007/01/02 00:40:53 jan Exp $
  *
- * Copyright 2002-2006 The Horde Project (http://www.horde.org/)
+ * Copyright 2002-2007 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
