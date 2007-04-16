@@ -12,7 +12,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <name>Chuck Hagenbuch</name>
   <user>chagenbu</user>
   <email>chuck@horde.org</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Jan Schneider</name>
