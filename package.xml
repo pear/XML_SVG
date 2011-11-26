@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>XML_SVG</name>
  <channel>pear.php.net</channel>
  <summary>XML_SVG API</summary>
@@ -16,11 +16,11 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2010-10-24</date>
- <time>12:29:00</time>
+ <date>2011-11-26</date>
+ <time>15:01:01</time>
  <version>
-  <release>1.0.3</release>
-  <api>1.0.2</api>
+  <release>1.1.0</release>
+  <api>1.1.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -28,16 +28,41 @@
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
  <notes>
-QA release
-SVN dir layout
-Bug #4961 	Package echoes text with htmlentities()
-Request #7959 	RadialGradient support
+One class per file
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <file baseinstalldir="/Horde" md5sum="4c9de300b87bef9f2e967e1b71c1f639" name="docs/examples/basic.php" role="doc" />
    <file baseinstalldir="/Horde" md5sum="0ca5fd8f47288120ebeeaa5a1f97daf3" name="docs/examples/radialGradient.php" role="doc" />
-   <file baseinstalldir="/" md5sum="914885ef96a2402677b6b57950f66369" name="XML/SVG.php" role="php" />
+   <file baseinstalldir="/" md5sum="1f6f1fd8565b13269eb8c3e8cd304555" name="XML/SVG.php" role="php" />
+   <file baseinstalldir="/" md5sum="0690873d5017ad04a914c3f486f1b677" name="XML/SVG/Animate.php" role="php" />
+   <file baseinstalldir="/" md5sum="b028140cd5166e5e29a1608039053bed" name="XML/SVG/Circle.php" role="php" />
+   <file baseinstalldir="/" md5sum="38ca3dd78760516b196781591ce4a810" name="XML/SVG/Defs.php" role="php" />
+   <file baseinstalldir="/" md5sum="9055e902f9e4c72b269868d16c2f4fc1" name="XML/SVG/Desc.php" role="php" />
+   <file baseinstalldir="/" md5sum="748a1c4405dda87010ac80452d6579a7" name="XML/SVG/Document.php" role="php" />
+   <file baseinstalldir="/" md5sum="93bfe5a12c4c8b3f3f66fd09ca88fa5b" name="XML/SVG/Element.php" role="php" />
+   <file baseinstalldir="/" md5sum="1aea0f6cf7b4c5296228c726fc776d93" name="XML/SVG/Ellipse.php" role="php" />
+   <file baseinstalldir="/" md5sum="8f3ab39214d07024accb5133d62b2257" name="XML/SVG/Filter.php" role="php" />
+   <file baseinstalldir="/" md5sum="a0b8f936b459e1c7ff36c59081d05d15" name="XML/SVG/FilterMergeNode.php" role="php" />
+   <file baseinstalldir="/" md5sum="dfa5454e98b70d577833af3ffbddeb5a" name="XML/SVG/FilterPrimitive.php" role="php" />
+   <file baseinstalldir="/" md5sum="8734c478d26521a88de5066306731b5a" name="XML/SVG/Fragment.php" role="php" />
+   <file baseinstalldir="/" md5sum="b7c73e0e75361c295aacb049dc70b1f8" name="XML/SVG/Group.php" role="php" />
+   <file baseinstalldir="/" md5sum="6f060d0694fcccd438b9d12a773f6c76" name="XML/SVG/Image.php" role="php" />
+   <file baseinstalldir="/" md5sum="2a65c45cdd834a256e121d9bb475e110" name="XML/SVG/Line.php" role="php" />
+   <file baseinstalldir="/" md5sum="dcfd880cb5a1485ebd744f76b5a508fb" name="XML/SVG/Marker.php" role="php" />
+   <file baseinstalldir="/" md5sum="457dce922e23b280f4b442b590e8791e" name="XML/SVG/Path.php" role="php" />
+   <file baseinstalldir="/" md5sum="1c56d1630fed24083aaab086583c069b" name="XML/SVG/Polygon.php" role="php" />
+   <file baseinstalldir="/" md5sum="2bc61e6fe244bff42722fe5a4ba3ed5b" name="XML/SVG/Polyline.php" role="php" />
+   <file baseinstalldir="/" md5sum="55d40bb274642faa437bbe4bec99a384" name="XML/SVG/RadialGradient.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f5f8d259d12ef8fb9bdc6e14dc61419" name="XML/SVG/Rect.php" role="php" />
+   <file baseinstalldir="/" md5sum="72ab762d78e7af17782d839d7342900a" name="XML/SVG/Stop.php" role="php" />
+   <file baseinstalldir="/" md5sum="418ab4664cf0ebed05f5ee5068d01a38" name="XML/SVG/Text.php" role="php" />
+   <file baseinstalldir="/" md5sum="07fcfea432c4dd2a9ad83fe21b0199a0" name="XML/SVG/Textpath.php" role="php" />
+   <file baseinstalldir="/" md5sum="99d7d97b4cf812d7f21a22ef328dd30f" name="XML/SVG/Title.php" role="php" />
+   <file baseinstalldir="/" md5sum="0071052b69896ebc99b7b4d88f83963b" name="XML/SVG/Tref.php" role="php" />
+   <file baseinstalldir="/" md5sum="90fd6ca313519fe68930b19859e7a16d" name="XML/SVG/Tspan.php" role="php" />
+   <file baseinstalldir="/" md5sum="213298e524894045736c142e3d48c6df" name="XML/SVG/Use.php" role="php" />
+   <file baseinstalldir="/" md5sum="212dce9cf42bfdbfd3338ef44812d8cc" name="README" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -143,6 +168,21 @@ QA release
 SVN dir layout
 Bug #4961 	Package echoes text with htmlentities()
 Request #7959 	RadialGradient support
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-11-26</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+One class per file
    </notes>
   </release>
  </changelog>
