@@ -42,12 +42,13 @@ class XML_SVG_Image extends XML_SVG_Element
         }
     }
 
-    function setShape($x, $y, $width, $height)
+    function setShape($x, $y, $width, $height, $href)
     {
         $this->_x = $x;
         $this->_y = $y;
         $this->_width  = $width;
         $this->_height  = $height;
+        $this->_href = $href;
     }
 
 }
