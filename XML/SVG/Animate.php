@@ -15,7 +15,8 @@ require_once 'XML/SVG/Element.php';
  *
  * @package XML_SVG
  */
-class XML_SVG_Animate extends XML_SVG_Element {
+class XML_SVG_Animate extends XML_SVG_Element
+{
 
     var $_attributeName;
     var $_attributeType;

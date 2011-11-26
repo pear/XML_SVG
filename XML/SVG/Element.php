@@ -17,7 +17,8 @@
  *
  * @package XML_SVG
  */
-class XML_SVG_Element {
+class XML_SVG_Element 
+{
 
     var $_elements = null;
     var $_style = null;

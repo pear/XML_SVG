@@ -15,7 +15,8 @@ require_once 'XML/SVG/Element.php';
  *
  * @package XML_SVG
  */
-class XML_SVG_Ellipse extends XML_SVG_Element {
+class XML_SVG_Ellipse extends XML_SVG_Element 
+{
 
     var $_cx;
     var $_cy;

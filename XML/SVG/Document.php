@@ -19,7 +19,8 @@ require_once 'XML/SVG/Fragment.php';
  *
  * @package XML_SVG
  */
-class XML_SVG_Document extends XML_SVG_Fragment {
+class XML_SVG_Document extends XML_SVG_Fragment
+{
 
     var $_encoding = 'iso-8859-1';
 

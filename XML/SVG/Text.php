@@ -15,7 +15,8 @@ require_once 'XML/SVG/Textpath.php';
  *
  * @package XML_SVG
  */
-class XML_SVG_Text extends XML_SVG_Textpath {
+class XML_SVG_Text extends XML_SVG_Textpath 
+{
 
     function printElement()
     {
